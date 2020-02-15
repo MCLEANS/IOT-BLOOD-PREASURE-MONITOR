@@ -6,7 +6,7 @@
 SoftwareSerial esp(2,3);
 //SoftwareSerial sms(7, 6);
 
-String Api_key = "GET /update?key=SBFHLUV7PBG7AHR3"; //change it with your api key like "GET /update?key=Your Api Key" 
+String Api_key = "GET /update?key=xxxxxxxxxx"; //change it with your api key like "GET /update?key=Your Api Key" 
 
 String textMessage="";
 const int number_of_spaces = 13;
@@ -30,9 +30,9 @@ void setup()
   
   send_command("AT+RST\r\n", 2000, DEBUG); //reset module
   send_command("AT+CWMODE=1\r\n", 1000, DEBUG); //set station mode
-  send_command("AT+CWJAP=\"techhub\",\"t@chhub2019@tuk\"\r\n", 2000, DEBUG);   //connect wifi network
+  send_command("AT+CWJAP=\"USSID\",\"PASSWORD\"\r\n", 2000, DEBUG);   //connect wifi network
   while(!esp.find("OK")) {} //wait for connection
-  //Serial.println("\r\n  Connected");
+  
   
 }
 void loop()
@@ -42,24 +42,17 @@ void loop()
   float cel = mv/10;
   temp = cel;
 
-  //Serial.print("TEMPRATURE = ");
-  //Serial.print(cel);
-  //Serial.print("*C");
-  //erial.println();
 
   //----------------------------------------------------------------------
   if (Serial.available() > 0) {
 
     //save the incoming data into textMessage string
     textMessage = Serial.readString();
-    //Serial.println(textMessage);
-
-    
-
+   
     //check if the text message contains #
     if (textMessage.indexOf("00") >= 0) {
       //++++++++++++++++++++++++++++++++++++++++++
-     //Serial.println("got your value");
+     
       int start_index = textMessage.indexOf(':');
        start_index = textMessage.indexOf(':', start_index + 1);
        start_index = textMessage.indexOf('\r', start_index + 1);
@@ -75,10 +68,9 @@ void loop()
 
       for(int f = 0; f < number_of_values ; f++){
         received_value[f] = textMessage.substring(space_index[f]+1, space_index[f+1]);
-        //Serial.println(received_value[f]);
+        
       }
 
-      
       //++++++++++++++++++++++++++++++++++++++++++++++
     
 
@@ -98,13 +90,7 @@ void loop()
       dia_ = dia;
       pulse_rate_ = pulse_rate;
       
-     // Serial.println("DETAILS");
-     // Serial.print("SYS : ");
-     // Serial.println(sys);
-     // Serial.print("DIA : ");
-      //Serial.println(dia);
-     // Serial.print("PULSE PER MINUTE : ");
-     // Serial.println(pulse_rate);
+  
       
       start: //label 
         error=0;
